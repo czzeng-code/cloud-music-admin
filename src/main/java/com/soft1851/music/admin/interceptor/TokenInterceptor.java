@@ -2,8 +2,10 @@ package com.soft1851.music.admin.interceptor;
 
 import com.alibaba.fastjson.JSONArray;
 import com.soft1851.music.admin.common.ResultCode;
+import com.soft1851.music.admin.dto.LoginDto;
 import com.soft1851.music.admin.entity.SysRole;
 import com.soft1851.music.admin.exception.CustomException;
+import com.soft1851.music.admin.service.RedisService;
 import com.soft1851.music.admin.service.SysRoleService;
 import com.soft1851.music.admin.util.JwtTokenUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +29,8 @@ import java.util.List;
 public class TokenInterceptor implements HandlerInterceptor {
     @Resource
     private SysRoleService sysRoleService;
+    @Resource
+    private RedisService redisService;
 
     /**
      * 前置处理，拦截请求
@@ -48,16 +52,24 @@ public class TokenInterceptor implements HandlerInterceptor {
         } else {
             //已经登录
             log.info("## token= {}", token);
-            //从token中解析出roles字符串
-            String roles = JwtTokenUtil.getRoles(token);
+            //从请求头中取出id
+            String adminId = request.getHeader("id");
+            log.info("## id= {}", adminId);
+            //到redis中检查是否存在以adminId为key的数据，如果不存在，要么过期了要么不是这个id的用户
+            if (!redisService.existsKey(adminId)) {
+                log.info("### 用户认证失败 ###");
+                throw new CustomException("用户认证失败", ResultCode.USER_AUTH_ERROR);
+            }
+            //用这个secret私钥从token中解析出roles字符串
+            String secret = redisService.getValue(adminId, String.class);
+            String roles = JwtTokenUtil.getRoles(token, secret);
             log.info("## roles= {}", roles);
             //反序列化成List
             List<SysRole> roleList = JSONArray.parseArray(roles, SysRole.class);
             //从request中取得客户端传输的roleId
-//
             String roleId = request.getParameter("roleId");
             log.info("## roleId= {}", roleId);
-            // 到roles中查找比对
+            // 到roles中查找比对，此部分代码在SysRoleService
             boolean flag = sysRoleService.checkRole(roleList, Integer.parseInt((roleId)));
             log.info("## flag= {}", flag);
             //在token中解析出的roles中含有请求参数的role值,放行到controller中获取数据

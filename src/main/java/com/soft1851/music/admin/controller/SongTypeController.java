@@ -1,9 +1,13 @@
 package com.soft1851.music.admin.controller;
 
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.soft1851.music.admin.entity.Song;
+import com.soft1851.music.admin.entity.SongType;
+import com.soft1851.music.admin.service.SongTypeService;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -16,5 +20,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/songType")
 public class SongTypeController {
+
+    @Resource
+    private SongTypeService songTypeService;
+
+    @GetMapping("/all")
+    public List<SongType> selectAll() {
+        return songTypeService.getAllType();
+    }
+
+    @PostMapping("/add")
+    public int addType(@RequestBody SongType songType) {
+        return songTypeService.addType(songType);
+    }
+
 
 }
