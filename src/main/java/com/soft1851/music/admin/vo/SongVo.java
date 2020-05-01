@@ -1,4 +1,4 @@
-package com.soft1851.music.admin.domain.vo;
+package com.soft1851.music.admin.vo;
 
 import com.soft1851.music.admin.annotation.ExcelVoAttribute;
 import lombok.Data;
@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 /**
  * @ClassName SongVo
  * @Description 需要导出的歌曲Vo类
- * @Author mq_xu
+ * @Author zeng
  * @Date 2020/4/27
  * @Version 1.0
  */

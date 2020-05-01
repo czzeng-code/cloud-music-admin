@@ -33,4 +33,9 @@ public interface SongService extends IService<Song> {
      * @return
      */
     List<Song> getSongByDate(String flag);
+
+    /**
+     * 导出数据
+     */
+    void exportData();
 }

@@ -9,7 +9,7 @@ import java.util.concurrent.CountDownLatch;
 /**
  * @ClassName ExcelConsumer
  * @Description 消费者线程类
- * @Author mq_xu
+ * @Author zeng
  * @Date 2020/4/27
  * @Version 1.0
  */

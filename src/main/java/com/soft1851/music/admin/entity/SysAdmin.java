@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -38,14 +40,17 @@ public class SysAdmin extends Model<SysAdmin> {
     /**
      * 用户名
      */
+    @NotNull(message = "用户名不能为空")
     @TableField("name")
     private String name;
 
     /**
      * 密码
      */
-    @JsonIgnore
+//    @JsonIgnore
     @TableField("password")
+    @NotNull(message = "密码不能为空")
+    @Size(min = 6)
     private String password;
 
     /**

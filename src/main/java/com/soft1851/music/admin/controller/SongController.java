@@ -37,4 +37,9 @@ public class SongController {
         return songService.getSongBy(field);
     }
 
+    @GetMapping(value = "/export")
+    public void exportData() {
+        songService.exportData();
+    }
+
 }

@@ -6,9 +6,13 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+
+import com.soft1851.music.admin.annotation.PhoneNumber;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import javax.validation.constraints.Email;
 
 /**
  * <p>
@@ -54,12 +58,14 @@ public class SysUser extends Model<SysUser> {
      * 手机号
      */
     @TableField("phone")
+    @PhoneNumber(message = "手机号码格式不正确")
     private String phone;
 
     /**
      * 邮箱
      */
     @TableField("email")
+    @Email(message = "邮箱格式不正确")
     private String email;
 
     /**

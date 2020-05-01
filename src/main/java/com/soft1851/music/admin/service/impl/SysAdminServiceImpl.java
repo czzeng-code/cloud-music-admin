@@ -1,6 +1,7 @@
 package com.soft1851.music.admin.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.soft1851.music.admin.common.ResultCode;
 import com.soft1851.music.admin.dto.LoginDto;
 import com.soft1851.music.admin.entity.SysAdmin;
@@ -20,7 +21,7 @@ import java.util.*;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author zeng
@@ -36,7 +37,7 @@ public class SysAdminServiceImpl extends ServiceImpl<SysAdminMapper, SysAdmin> i
     private RedisService redisService;
 
     @Override
-    public Map<String,Object> login(LoginDto loginDto) {
+    public Map<String, Object> login(LoginDto loginDto) {
         //根据查到基础信息，主要是要用密码来判定
         SysAdmin admin = sysAdminMapper.getSysAdminByName(loginDto.getName());
         if (admin != null) {
@@ -75,5 +76,21 @@ public class SysAdminServiceImpl extends ServiceImpl<SysAdminMapper, SysAdmin> i
     @Override
     public String getToken(String adminId, String roles, String secret, Date expiresAt) {
         return JwtTokenUtil.getToken(adminId, roles, secret, expiresAt);
+    }
+
+    @Override
+    public void updateInfo(SysAdmin admin) {
+        if (admin.getPassword()!=null) {
+          admin.setPassword(Md5Util.getMd5(admin.getPassword(), true, 32));
+        }
+        log.info(admin.toString());
+        UpdateWrapper<SysAdmin> wrapper = new UpdateWrapper<>();
+        wrapper.eq("name", admin.getName());
+//                .set("avatar", admin.getAvatar());
+        try {
+            sysAdminMapper.update(admin, wrapper);
+        } catch (Exception e) {
+            throw new CustomException("个人信息修改异常", ResultCode.DATABASE_ERROR);
+        }
     }
 }

@@ -6,7 +6,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 /**
  * @ClassName ExportDataAdapter
  * @Description 数据缓冲区
- * @Author mq_xu
+ * @Author zeng
  * @Date 2020/4/27
  * @Version 1.0
  */

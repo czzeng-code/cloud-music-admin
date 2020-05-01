@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 /**
  * @ClassName ExcelUtil
  * @Description 封装Excel导出工具类
- * @Author mq_xu
+ * @Author zeng
  * @Date 2020/4/27
  * @Version 1.0
  */

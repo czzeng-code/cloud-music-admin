@@ -42,4 +42,10 @@ public interface SysAdminService extends IService<SysAdmin> {
      * @return String
      */
     String getToken(final String adminId, final String roles, final String secret, Date expiresAt);
+
+    /**
+     * 修改个人资料
+     * @param admin
+     */
+    void updateInfo(SysAdmin admin);
 }

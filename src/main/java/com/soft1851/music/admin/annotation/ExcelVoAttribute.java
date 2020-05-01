@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 /**
  * @ClassName ExcelVoAttribute
  * @Description 自定义注解，封装Excel导出需求，可根据实际需求扩展
- * @Author mq_xu
+ * @Author zeng
  * @Date 2020/4/27
  * @Version 1.0
  */
